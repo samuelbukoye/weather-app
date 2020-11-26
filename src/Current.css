@@ -1,0 +1,15 @@
+.main{
+    text-align: center ;
+}
+.display-weather{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+.weather-icon,.weather-info{
+    width: 300px;
+}
+.weather-icon{
+    font-style: italic;
+    color: grey;
+}

@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import './App.css';
 import Current from './Current';
+import Hourly from './Hourly';
 
 class App extends Component {
   constructor () {
@@ -16,13 +17,10 @@ class App extends Component {
     }
   }
   componentDidMount(){
-    
-    let lat = 0;
-    let lon = 4;
     let myKey = '127d9e2cd99015fdd06f93737e4b535b'
-    let link = `https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&units=imperial&appid=${myKey}`
-
-    fetch(link)
+    const fetchWeather=(lat,lon)=>{
+      let link = `https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&units=imperial&appid=${myKey}`
+      fetch(link)
       .then (response=>{
         if (!response.ok) { throw response }
           return  response.json()
@@ -47,6 +45,20 @@ class App extends Component {
       //       });
       //   // })
       // })
+    }
+    const getPosition=(position)=>{
+      console.log(position)
+      let lat=position.coords.latitude
+      let lon=position.coords.longitude
+      fetchWeather(lat,lon)
+    }
+    
+    navigator.geolocation.getCurrentPosition(getPosition)
+    
+    
+    
+    
+    
   
   }
 
@@ -58,15 +70,15 @@ class App extends Component {
 
       const hourConverter=(hours)=>{
         return hours<=12 ? {
-            hourOfDay: hours,
+            hourOfDay: timeConverter(hours),
             suffix : 'am'
           } : {
-            hourOfDay: hours-12,
+            hourOfDay: timeConverter(hours-12),
             suffix : 'pm'
           }
       }
       const timeConverter =(seconds) =>{
-        return seconds<=10 ? '0'+seconds : seconds
+        return seconds<10 ? '0'+seconds : seconds
       }
 
       let months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "Octomber", "November", "December"];
@@ -77,6 +89,7 @@ class App extends Component {
       let {hourOfDay,suffix} = hourConverter(d.getHours())
       let dayOfWeek = days[d.getDay()];
       let dayOfMonth = d.getDate();
+      let monthNoOfYear = timeConverter(d.getMonth());
       let monthOfYear = months[d.getMonth()];
       let year = d.getFullYear()
       
@@ -88,6 +101,7 @@ class App extends Component {
         suffix,
         dayOfWeek,
         dayOfMonth,
+        monthNoOfYear,
         monthOfYear,
         year
       }
@@ -95,7 +109,8 @@ class App extends Component {
     return !loading ? (
       <div>
         <Current today={weatherJson.current} dateBuilder={dateBuilder}/>
-    
+        <Hourly hourly={weatherJson.hourly} dateBuilder={dateBuilder}/>
+        
       </div>
     ) : (
       <h2>Loading</h2>
