@@ -24,7 +24,7 @@ class App extends Component {
       let myKey = 'ae9ca2c216770a504cefc6f82a364b91'
       // mine
       // let myKey = '127d9e2cd99015fdd06f93737e4b535b'
-      let link = `https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&units=imperial&appid=${myKey}`
+      let link = `https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&units=metric&appid=${myKey}`
       
       fetch(link)
       .then (response=>{
