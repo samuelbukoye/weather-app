@@ -43,7 +43,7 @@ class App extends Component {
     }
 
     navigator.geolocation.getCurrentPosition(getPosition)
-    
+
   }
 
   render(){
@@ -97,7 +97,7 @@ class App extends Component {
         
       </div>
     ) : (
-      <h2>Loading</h2>
+      <h2 style={{color:'blue'}}>Loading</h2>
     )
   }
 }
