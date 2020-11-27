@@ -17,16 +17,15 @@ class App extends Component {
     }
   }
   componentDidMount(){
-    navigator.geolocation.getCurrentPosition(getPosition)
-
-    function getPosition(position){
-      console.log('hey')
+    const getPosition=(position)=>{
       let lat=position.coords.latitude
       let lon=position.coords.longitude
-      let myKey = '127d9e2cd99015fdd06f93737e4b535b'
+      // borrowed
+      let myKey = 'ae9ca2c216770a504cefc6f82a364b91'
+      // mine
+      // let myKey = '127d9e2cd99015fdd06f93737e4b535b'
       let link = `https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&units=imperial&appid=${myKey}`
-      console.log(link)
-      console.log(lat,lon)
+      
       fetch(link)
       .then (response=>{
         if (!response.ok) { throw response }
@@ -42,7 +41,9 @@ class App extends Component {
         });
       })
     }
-  
+
+    navigator.geolocation.getCurrentPosition(getPosition)
+    
   }
 
   render(){
