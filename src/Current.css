@@ -1,15 +1,21 @@
 .main{
+    display: flex;
+    flex-direction: column;
     text-align: center ;
+    align-items: center;
 }
 .display-weather{
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
+
+
+    background-color: rgba(29, 35, 58, 0.5);
 }
-.weather-icon,.weather-info{
+.weather-info,.weather-main{
     width: 300px;
 }
-.weather-icon{
+.weather-info{
     font-style: italic;
     color: grey;
 }

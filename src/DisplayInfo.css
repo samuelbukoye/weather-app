@@ -1,0 +1,59 @@
+.auto{
+  margin-left: auto;
+  margin-right: auto;
+}
+.flex{
+  display: flex;
+}
+.crop-x{
+  overflow-x: scroll;
+  overflow-y: hidden;
+}
+.weather-details>.flex>:last-child,.weather-details>.flex>:last-child>:first-child{
+  border-top-right-radius: 20px;
+}
+.weather-title{
+  margin-left: auto;
+  border: 2px groove #5194b3;
+  background-color: #fabfca;
+  border-top-left-radius: 20px;
+  z-index: 1;
+  box-shadow: 4px 0px 4px #535252;
+}
+.weather-title>:first-child{
+   border-top-left-radius: 20px;
+}
+.weather-detail{
+   border: 1px dotted rgb(81, 148, 179);
+   text-align: center;
+}
+.weather-details{
+  margin-right: auto;
+}
+.cell-header,.cell-detail{
+  width: 100px;
+}
+.icon{
+  height:100px;
+}
+.cell-header{
+  height: 40px;
+  color: grey;
+}
+.cell-detail{
+height: 40px;
+}
+
+.weather-title .icon,.weather-title .cell-header{
+  background-color: #e7e5e5;
+}
+.weather-title .cell-detail{
+  width: calc(100% - 10px);
+  padding-left: 10px;
+}
+.weather-detail .icon,.weather-detail .cell-header{
+  background-color: #f8f8f8;
+}
+.weather-detail .cell-detail{
+  background-color: #f5d4da;
+}

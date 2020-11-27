@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import './App.css';
 import Current from './Current';
-import Hourly from './Hourly';
+import DisplayInfo from './DisplayInfo';
+import {json} from './json_response'
 
 class App extends Component {
   constructor () {
@@ -12,8 +13,6 @@ class App extends Component {
       error:undefined,
       errorMessage:'',
       testing:''
-
-
     }
   }
   componentDidMount(){
@@ -25,6 +24,7 @@ class App extends Component {
       // mine
       // let myKey = '127d9e2cd99015fdd06f93737e4b535b'
       let link = `https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&units=metric&appid=${myKey}`
+      
       
       fetch(link)
       .then (response=>{
@@ -42,8 +42,13 @@ class App extends Component {
       })
     }
 
-    navigator.geolocation.getCurrentPosition(getPosition)
-
+    // navigator.geolocation.getCurrentPosition(getPosition)
+    this.setState({
+      error:false,
+      loading:false,
+      weatherJson:json,
+      testing:'dope'
+    });
   }
 
   render(){
@@ -93,7 +98,7 @@ class App extends Component {
     return !loading ? (
       <div>
         <Current today={weatherJson.current} dateBuilder={dateBuilder}/>
-        <Hourly hourly={weatherJson.hourly} dateBuilder={dateBuilder}/>
+        <DisplayInfo hourly={weatherJson.hourly} daily={weatherJson.daily} dateBuilder={dateBuilder}/>
         
       </div>
     ) : (

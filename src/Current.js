@@ -35,12 +35,12 @@ const Current = ({today, dateBuilder}) => {
                 <p>as of {now.hourOfDay}:{now.minuiteOfHour} {now.suffix}</p>
                 
                 <section className="display-weather">
-                    <div className="weather-info">
+                    <div className="weather-main">
                         <img src={`https://openweathermap.org/img/wn/${icon}@2x.png`} alt="weather-icon" />
                         <p>{main}</p>
                         <h2>{temperature}<sup>o</sup>C</h2>
                     </div>
-                    <div className="weather-icon">
+                    <div className="weather-info">
                         <p>{description}</p>
                         <p>humidity : {humidity}%</p>
                         <p>wind speed : {windSpeed}m/s</p>
