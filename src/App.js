@@ -20,9 +20,9 @@ class App extends Component {
       let lat=position.coords.latitude
       let lon=position.coords.longitude
       // borrowed
-      let myKey = 'ae9ca2c216770a504cefc6f82a364b91'
+      // let myKey = 'ae9ca2c216770a504cefc6f82a364b91'
       // mine
-      // let myKey = '127d9e2cd99015fdd06f93737e4b535b'
+      let myKey = '127d9e2cd99015fdd06f93737e4b535b'
       let link = `https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&units=metric&appid=${myKey}`
       
       
@@ -42,13 +42,13 @@ class App extends Component {
       })
     }
 
-    // navigator.geolocation.getCurrentPosition(getPosition)
-    this.setState({
-      error:false,
-      loading:false,
-      weatherJson:json,
-      testing:'dope'
-    });
+    navigator.geolocation.getCurrentPosition(getPosition)
+    // this.setState({
+    //   error:false,
+    //   loading:false,
+    //   weatherJson:json,
+    //   testing:'dope'
+    // });
   }
 
   render(){
