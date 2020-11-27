@@ -17,9 +17,16 @@ class App extends Component {
     }
   }
   componentDidMount(){
-    let myKey = '127d9e2cd99015fdd06f93737e4b535b'
-    const fetchWeather=(lat,lon)=>{
+    navigator.geolocation.getCurrentPosition(getPosition)
+
+    function getPosition(position){
+      console.log('hey')
+      let lat=position.coords.latitude
+      let lon=position.coords.longitude
+      let myKey = '127d9e2cd99015fdd06f93737e4b535b'
       let link = `https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&units=imperial&appid=${myKey}`
+      console.log(link)
+      console.log(lat,lon)
       fetch(link)
       .then (response=>{
         if (!response.ok) { throw response }
@@ -34,31 +41,7 @@ class App extends Component {
           testing
         });
       })
-      // .catch(err => {
-      //   // err.text()
-      //   //   .then(errorMessage => {
-      //       let testing = 'WHOOPS! THIS IS TROUBLE!'
-      //       this.setState({
-      //         error:true,
-      //         errorMessage:err,
-      //         testing
-      //       });
-      //   // })
-      // })
     }
-    const getPosition=(position)=>{
-      console.log(position)
-      let lat=position.coords.latitude
-      let lon=position.coords.longitude
-      fetchWeather(lat,lon)
-    }
-    
-    navigator.geolocation.getCurrentPosition(getPosition)
-    
-    
-    
-    
-    
   
   }
 
