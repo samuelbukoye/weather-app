@@ -21,7 +21,7 @@ const Current = ({today, dateBuilder}) => {
     let sunrise = dateBuilder(today.sunrise)
     let sunset = dateBuilder(today.sunset)
     // temperature - in celsius
-    let temperature = today.temp
+    let temperature = Math.round(today.temp)
     // wind_speed - in m/s
     let humidity = today.humidity
     let windSpeed = today.wind_speed

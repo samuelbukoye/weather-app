@@ -34,8 +34,10 @@ class DisplayInfo extends Component {
         <section className="weather-title">
             <div className='icon'></div>
             <div className='cell-header'></div>
-            <div className='cell-detail'>temperature</div>
-            <div className='cell-detail'>min/max</div>
+            <div className='cell-detail'>morning</div>
+            <div className='cell-detail'>day</div>
+            <div className='cell-detail'>evening</div>
+            <div className='cell-detail'>night</div>
             <div className='cell-detail'>sunrise</div>
             <div className='cell-detail'>sunset</div>
             <div className='cell-detail'>humidity</div>
@@ -48,12 +50,18 @@ class DisplayInfo extends Component {
         let weekday = this.showDay(date,now)
         let sunrise = dateBuilder(day.sunrise)
         let sunset = dateBuilder(day.sunset)
+        let morn_temp = Math.round(day.temp.morn)
+        let day_temp = Math.round(day.temp.morn)
+        let eve_temp = Math.round(day.temp.morn)
+        let night_temp = Math.round(day.temp.morn)
         return(
             <section key={index} className='weather-detail'>
                 <div className='icon'><img src={`https://openweathermap.org/img/wn/${day.weather[0].icon}@2x.png`} alt="" /></div>
                 <div className='cell-header'>{weekday}</div>
-                <div className='cell-detail'>{day.temp.day}<sup>o</sup>C</div>
-                <div className='cell-detail'>{day.temp.min}<sup>o</sup>/{day.temp.max}<sup>o</sup></div>
+                <div className='cell-detail'>{morn_temp}<sup>o</sup></div>
+                <div className='cell-detail'>{day_temp}<sup>o</sup></div>
+                <div className='cell-detail'>{eve_temp}<sup>o</sup></div>
+                <div className='cell-detail'>{night_temp}<sup>o</sup></div>
                 <div className='cell-detail'>{sunrise.hourOfDay}:{sunrise.minuiteOfHour}</div>
                 <div className='cell-detail'>{sunset.hourOfDay}:{sunset.minuiteOfHour}</div>
                 <div className='cell-detail'>{day.humidity}%</div>
@@ -76,12 +84,13 @@ class DisplayInfo extends Component {
     let hourlyDetails = hourly.map((hour,index) => {
         let date = dateBuilder(hour.dt)
         let weekday = this.showDay(date,now)
+        let hour_temp = Math.round(hour.temp)
         return(
             <section key={index} className='weather-detail'>
                 <div className='icon'><img src={`https://openweathermap.org/img/wn/${hour.weather[0].icon}@2x.png`} alt="" /></div>
                 <div className='cell-header'>{weekday}</div>
                 <div className='cell-header'>{date.hourOfDay}:{date.minuiteOfHour} {date.suffix}</div>
-                <div className='cell-detail'>{hour.temp}<sup>o</sup>C</div>
+                <div className='cell-detail'>{hour_temp}<sup>o</sup></div>
                 <div className='cell-detail'>{hour.humidity}%</div>
                 <div className='cell-detail'>{hour.wind_speed}m/s</div>
                 <div className='cell-detail'>{hour.weather[0].description}</div>
@@ -92,7 +101,7 @@ class DisplayInfo extends Component {
     return showHourly ?  (
             <div>
                 <SwitchButton stateChanger={this.stateChanger} showHourly={showHourly} />
-                <div className="flex container">
+                <div className="flex">
                     {hourlyTitle}
                     <div className="weather-details crop-x">
                         <div  className="flex">
@@ -104,7 +113,7 @@ class DisplayInfo extends Component {
         ) :  (
             <div>
                 <SwitchButton stateChanger={this.stateChanger} showHourly={showHourly} />
-                <div className="flex container">
+                <div className="flex">
                     {dailyTitle}
                     <div className="weather-details crop-x">
                         <div  className="flex">
