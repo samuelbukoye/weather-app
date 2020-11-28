@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import './App.css';
 import Current from './Current';
 import DisplayInfo from './DisplayInfo';
-import {json} from './json_response'
+// import {json} from './json_response'
 
 class App extends Component {
   constructor () {
