@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import SwitchButton from './SwitchButton'
+import Switch from './Switch'
 import './DisplayInfo.css';
 
 
@@ -12,7 +12,7 @@ class DisplayInfo extends Component {
         }
     }
     
-    stateChanger=()=>{
+    setShowHourly=()=>{
         this.setState({
             showHourly:this.state.showHourly?false:true
         })
@@ -28,16 +28,19 @@ class DisplayInfo extends Component {
     let dateBuilder= this.props.dateBuilder
     let daily= this.props.daily
     let hourly= this.props.hourly
+    let toFarenheit = this.props.toFarenheit
+    let displayCelsius = this.props.displayCelsius
+    let unit = displayCelsius?'(C)':'(F)'
     let now = new Date().getDate()
     
     let dailyTitle = (
         <section className="weather-title">
             <div className='icon'></div>
             <div className='cell-header'></div>
-            <div className='cell-detail'>morning</div>
-            <div className='cell-detail'>day</div>
-            <div className='cell-detail'>evening</div>
-            <div className='cell-detail'>night</div>
+            <div className='cell-detail'>morning{unit}</div>
+            <div className='cell-detail'>day{unit}</div>
+            <div className='cell-detail'>evening{unit}</div>
+            <div className='cell-detail'>night{unit}</div>
             <div className='cell-detail'>sunrise</div>
             <div className='cell-detail'>sunset</div>
             <div className='cell-detail'>humidity</div>
@@ -50,10 +53,10 @@ class DisplayInfo extends Component {
         let weekday = this.showDay(date,now)
         let sunrise = dateBuilder(day.sunrise)
         let sunset = dateBuilder(day.sunset)
-        let morn_temp = Math.round(day.temp.morn)
-        let day_temp = Math.round(day.temp.morn)
-        let eve_temp = Math.round(day.temp.morn)
-        let night_temp = Math.round(day.temp.morn)
+        let morn_temp =displayCelsius? Math.round(day.temp.morn):Math.round(toFarenheit(day.temp.morn))
+        let day_temp = displayCelsius? Math.round(day.temp.day):Math.round(toFarenheit(day.temp.day))
+        let eve_temp = displayCelsius? Math.round(day.temp.eve):Math.round(toFarenheit(day.temp.eve))
+        let night_temp = displayCelsius? Math.round(day.temp.night):Math.round(toFarenheit(day.temp.night))
         return(
             <section key={index} className='weather-detail'>
                 <div className='icon'><img src={`https://openweathermap.org/img/wn/${day.weather[0].icon}@2x.png`} alt="" /></div>
@@ -75,7 +78,7 @@ class DisplayInfo extends Component {
         <div className='icon'></div>
         <div className='cell-header'></div>
         <div className='cell-header'></div>
-        <div className='cell-detail'>temperature</div>
+        <div className='cell-detail'>temperature{unit}</div>
         <div className='cell-detail'>humidity</div>
         <div className='cell-detail'>wind speed</div>
         <div className='cell-detail'>weather</div>
@@ -84,7 +87,7 @@ class DisplayInfo extends Component {
     let hourlyDetails = hourly.map((hour,index) => {
         let date = dateBuilder(hour.dt)
         let weekday = this.showDay(date,now)
-        let hour_temp = Math.round(hour.temp)
+        let hour_temp = displayCelsius?Math.round(hour.temp):Math.round(toFarenheit(hour.temp))
         return(
             <section key={index} className='weather-detail'>
                 <div className='icon'><img src={`https://openweathermap.org/img/wn/${hour.weather[0].icon}@2x.png`} alt="" /></div>
@@ -97,34 +100,32 @@ class DisplayInfo extends Component {
             </section>
         )
    });
-    
-    return showHourly ?  (
-            <div>
-                <SwitchButton stateChanger={this.stateChanger} showHourly={showHourly} />
-                <div className="flex">
-                    {hourlyTitle}
-                    <div className="weather-details crop-x">
-                        <div  className="flex">
-                            {hourlyDetails}
+   return <div>
+            <h3>Weather Prediction</h3>
+            <div></div>
+                <Switch firstValue='Hourly' secondValue='Daily' switchFunc={this.setShowHourly} boolValue={showHourly} />
+
+            {showHourly ?  ( 
+                    <div className="flex">
+                        {hourlyTitle}
+                        <div className="weather-details crop-x">
+                            <div  className="flex">
+                                {hourlyDetails}
+                            </div>
                         </div>
                     </div>
-                </div>
-            </div>
-        ) :  (
-            <div>
-                <SwitchButton stateChanger={this.stateChanger} showHourly={showHourly} />
+            ) :  (
                 <div className="flex">
-                    {dailyTitle}
-                    <div className="weather-details crop-x">
-                        <div  className="flex">
-                            {dailyDetails}
+                        {dailyTitle}
+                        <div className="weather-details crop-x">
+                            <div  className="flex">
+                                {dailyDetails}
+                            </div>
                         </div>
                     </div>
-                </div>
-            </div>
-        ) 
+            ) }
+        </div>
    }
-  
 }
 
 export default DisplayInfo;

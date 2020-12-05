@@ -1,8 +1,13 @@
 .main{
-    display: flex;
+    /* display: flex; */
     flex-direction: column;
     text-align: center ;
     align-items: center;
+}
+h1{
+    margin-left:auto;
+    margin-top: 0;
+    margin-right: 10px;
 }
 .display-weather{
     display: flex;

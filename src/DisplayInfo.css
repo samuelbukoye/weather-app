@@ -1,3 +1,7 @@
+h3{
+  color: blue;
+  text-align: center;
+}
 .auto{
   margin-left: auto;
   margin-right: auto;
@@ -31,10 +35,15 @@
 .weather-details{
   margin-right: auto;
 }
-.cell-header,.cell-detail{
+.weather-title .cell-header,.weather-title .cell-detail{
+  width: 105px;
+  padding: 5px;
+}
+.weather-detail .cell-header,.weather-detail .cell-detail{
   width: 90px;
   padding: 5px;
 }
+
 .icon{
   height:100px;
 }

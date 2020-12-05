@@ -12,16 +12,14 @@ class App extends Component {
       loading : true,
       error:undefined,
       errorMessage:'',
-      testing:''
+      testing:'',
+      displayCelsius:true
     }
   }
   componentDidMount(){
     const getPosition=(position)=>{
       let lat=position.coords.latitude
       let lon=position.coords.longitude
-      // borrowed
-      // let myKey = 'ae9ca2c216770a504cefc6f82a364b91'
-      // mine
       let myKey = '127d9e2cd99015fdd06f93737e4b535b'
       let link = `https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&units=metric&appid=${myKey}`
       
@@ -52,8 +50,16 @@ class App extends Component {
   }
 
   render(){
-    let { weatherJson,loading } = this.state
-
+    let { weatherJson,loading,displayCelsius } = this.state
+    let setDisplayCelsius=()=>{
+      this.setState({
+        displayCelsius:displayCelsius?false:true
+      })
+    }
+    let toFarenheit=(celsius)=>{
+      let farenheit = (celsius*9/5) +32
+      return farenheit
+    }
     const dateBuilder=(d)=>{
       d = new Date(d*1000)
 
@@ -97,8 +103,8 @@ class App extends Component {
     }
     return !loading ? (
       <div>
-        <Current today={weatherJson.current} dateBuilder={dateBuilder}/>
-        <DisplayInfo hourly={weatherJson.hourly} daily={weatherJson.daily} dateBuilder={dateBuilder}/>
+        <Current toFarenheit={toFarenheit} setDisplayCelsius={setDisplayCelsius} displayCelsius={displayCelsius} today={weatherJson.current} dateBuilder={dateBuilder}/>
+        <DisplayInfo toFarenheit={toFarenheit} displayCelsius={displayCelsius} hourly={weatherJson.hourly} daily={weatherJson.daily} dateBuilder={dateBuilder}/>
         
       </div>
     ) : (

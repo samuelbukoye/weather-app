@@ -1,7 +1,8 @@
 import React from 'react';
+import Switch from './Switch'
 import './Current.css';
 
-const Current = ({today, dateBuilder}) => {
+const Current = ({today, dateBuilder,toFarenheit,setDisplayCelsius,displayCelsius}) => {
     
 
     /*
@@ -21,7 +22,7 @@ const Current = ({today, dateBuilder}) => {
     let sunrise = dateBuilder(today.sunrise)
     let sunset = dateBuilder(today.sunset)
     // temperature - in celsius
-    let temperature = Math.round(today.temp)
+    let temperature = displayCelsius?Math.round(today.temp):Math.round(toFarenheit(today.temp))
     // wind_speed - in m/s
     let humidity = today.humidity
     let windSpeed = today.wind_speed
@@ -29,7 +30,13 @@ const Current = ({today, dateBuilder}) => {
 
     return (
         <div className='main'>
-            <h1>Current Weather Condition</h1>
+            <div style={{display:"flex"}}>
+                <h1>Current Weather Condition</h1>
+                <div style={{width:"100px", marginLeft:'auto'}}>
+                    <Switch firstValue={<span><sup>o</sup>C</span>} secondValue={<span><sup>o</sup>F</span>} switchFunc={setDisplayCelsius} boolValue={displayCelsius} />
+                </div>
+            </div>
+            
             <div>
                 <h3> Today {now.dayOfWeek}, {now.monthOfYear} {now.dayOfMonth}</h3>
                 <p>as of {now.hourOfDay}:{now.minuiteOfHour} {now.suffix}</p>
@@ -38,7 +45,7 @@ const Current = ({today, dateBuilder}) => {
                     <div className="weather-main">
                         <img src={`https://openweathermap.org/img/wn/${icon}@2x.png`} alt="weather-icon" />
                         <p>{main}</p>
-                        <h2>{temperature}<sup>o</sup>C</h2>
+                        <h2>{temperature}<sup>o</sup>{displayCelsius?'C':'F'}</h2>
                     </div>
                     <div className="weather-info">
                         <p>{description}</p>
