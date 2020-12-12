@@ -101,29 +101,30 @@ class DisplayInfo extends Component {
         )
    });
    return <div>
-            <h3>Weather Prediction</h3>
-            <div></div>
-                <Switch firstValue='Hourly' secondValue='Daily' switchFunc={this.setShowHourly} boolValue={showHourly} />
-
-            {showHourly ?  ( 
+            <h2>Future Prediction</h2>
+            <Switch firstValue='Hourly' secondValue='Daily' switchFunc={this.setShowHourly} boolValue={showHourly} />
+            
+            <div style={{fontFamily:"'Oswald',sans-serif"}}>
+                {showHourly ?  ( 
                     <div className="flex">
-                        {hourlyTitle}
-                        <div className="weather-details crop-x">
-                            <div  className="flex">
-                                {hourlyDetails}
-                            </div>
-                        </div>
+                    {hourlyTitle}
+                    <div className="weather-details crop-x">
+                    <div  className="flex">
+                    {hourlyDetails}
                     </div>
-            ) :  (
-                <div className="flex">
+                    </div>
+                    </div>
+                    ) :  (
+                        <div className="flex">
                         {dailyTitle}
                         <div className="weather-details crop-x">
-                            <div  className="flex">
-                                {dailyDetails}
+                        <div  className="flex">
+                        {dailyDetails}
+                        </div>
                             </div>
                         </div>
-                    </div>
-            ) }
+                    ) }
+            </div>
         </div>
    }
 }

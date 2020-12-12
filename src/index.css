@@ -11,14 +11,13 @@ body {
   background-repeat: no-repeat;
   background-size: cover;
   min-width: 300px;
+  color: #092749;
 }
-
-main{
-  padding: 20px;
-  background-color: rgba(17, 8, 13,0.5);
-}
-
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
+}
+
+h1,h2,h4{
+  text-align: center;
 }

@@ -1,8 +1,7 @@
 import React from 'react';
-import Switch from './Switch'
 import './Current.css';
 
-const Current = ({today, dateBuilder,toFarenheit,setDisplayCelsius,displayCelsius}) => {
+const Current = ({today, dateBuilder,toFarenheit,displayCelsius}) => {
     
 
     /*
@@ -29,25 +28,21 @@ const Current = ({today, dateBuilder,toFarenheit,setDisplayCelsius,displayCelsiu
     let { main, description, icon } = today.weather[0]
 
     return (
-        <div className='main'>
-            <div style={{display:"flex"}}>
-                <h1>Current Weather Condition</h1>
-                <div style={{width:"100px", marginLeft:'auto'}}>
-                    <Switch firstValue={<span><sup>o</sup>C</span>} secondValue={<span><sup>o</sup>F</span>} switchFunc={setDisplayCelsius} boolValue={displayCelsius} />
-                </div>
-            </div>
-            
-            <div>
-                <h3> Today {now.dayOfWeek}, {now.monthOfYear} {now.dayOfMonth}</h3>
-                <p>as of {now.hourOfDay}:{now.minuiteOfHour} {now.suffix}</p>
-                
-                <section className="display-weather">
-                    <div className="weather-main">
+        <div style={{}}>
+            <div style={{textAlign:"center"}}>
+                <h2>
+                    Today {now.dayOfWeek}, {now.monthOfYear} {now.dayOfMonth}
+                </h2>
+                <h4 style={{fontStyle: "italic"}}>
+                    as of {now.hourOfDay}:{now.minuiteOfHour} {now.suffix}
+                </h4>
+                <section style={{display: "flex",flexWrap:"wrap",justifyContent: "center"}}>
+                    <div style={{width:"250px"}}>
                         <img src={`https://openweathermap.org/img/wn/${icon}@2x.png`} alt="weather-icon" />
                         <p>{main}</p>
                         <h2>{temperature}<sup>o</sup>{displayCelsius?'C':'F'}</h2>
                     </div>
-                    <div className="weather-info">
+                    <div style={{fontStyle: "italic",width:"250px"}}>
                         <p>{description}</p>
                         <p>humidity : {humidity}%</p>
                         <p>wind speed : {windSpeed}m/s</p>
