@@ -12,9 +12,11 @@ class App extends Component {
       weatherJson : {},
       loading : true,
       error:undefined,
-      errorMessage:'',
-      testing:'',
-      displayCelsius:true
+      errorMessageMain:'Error!!!',
+      errorMessageDetail:'Oh No!!',
+      displayCelsius:true,
+      positionGotten:true,
+      positionErrorText:'',
     }
   }
   componentDidMount(){
@@ -28,7 +30,7 @@ class App extends Component {
       fetch(link)
       .then (response=>{
         if (!response.ok) { throw response }
-          return  response.json()
+        return  response.json()
       })
       .then(weatherJson=> {
         let testing = 'SUCCESS!!! : BUT BRO ... IT AINT HANDLED YET'
@@ -39,19 +41,73 @@ class App extends Component {
           testing
         });
       })
+      .catch(err=>{
+        if (typeof err.text === 'function') {
+          err.text()
+          .then(errorMessage => {
+            this.setState({
+              loading:false,
+                error:true,
+                errorMessageMain:'Error!!!',
+                errorMessageDetail:errorMessage
+              })
+            });
+          }else{
+            let errorMessageMain='TypeError: Failed To Fetch!!!'
+            let errorMessageDetail='This is most probably due to a connection problem \n Make sure you have a stable connection, then refresh'
+            
+              this.setState({
+                loading:false,
+                error:true,
+                errorMessageMain,
+                errorMessageDetail
+              })
+            }
+          })
+        }
+    const errorCallback=()=>{
+      let positionErrorMessage='Do note that you need to allow this browser to access your location to get the best out of this site'
+        this.setState({
+          positionGotten:false,
+          positionErrorMessage,
+          loading:false,
+          error:true,
+          errorMessageMain:'Data Fetch Error!!',
+          errorMessageDetail:''
+        })
     }
 
-    navigator.geolocation.getCurrentPosition(getPosition)
-    // this.setState({
-    //   error:false,
-    //   loading:false,
+        if(navigator.geolocation){
+          navigator.geolocation.getCurrentPosition(getPosition,errorCallback,{timeout:5000})
+        }else{
+          let positionErrorMessage='Geolocation is not supported by your browser'
+          this.setState({
+            positionGotten:false,
+            positionErrorMessage,
+            loading:false,
+            error:true,
+            errorMessageMain:'Data Fetch Error!!!',
+            errorMessageDetail:''
+          })
+        }
+        // this.setState({
+          //   error:false,
+          //   loading:false,
     //   weatherJson:json,
-    //   testing:'dope'
     // });
   }
-
+  
   render(){
-    let { weatherJson,loading,displayCelsius } = this.state
+    let { 
+      positionGotten,
+      positionErrorMessage,
+      error,
+      errorMessageMain,
+      errorMessageDetail,
+      weatherJson,
+      loading,
+      displayCelsius,
+      } = this.state
     let setDisplayCelsius=()=>{
       this.setState({
         displayCelsius:displayCelsius?false:true
@@ -112,25 +168,51 @@ class App extends Component {
             </div>
           </div>
         </header>
-        {!loading ? (
-          <main 
-            style={{
-              marginTop:"120px",
-              padding:"0px 10px",
-              backgroundColor:"#11080d80",
-              fontFamily:"'Open Sans', sans-serif",}}
-              >
-            <Current toFarenheit={toFarenheit} displayCelsius={displayCelsius} today={weatherJson.current} dateBuilder={dateBuilder}/>
-            <DisplayInfo toFarenheit={toFarenheit} displayCelsius={displayCelsius} hourly={weatherJson.hourly} daily={weatherJson.daily} dateBuilder={dateBuilder}/>
-            
-          </main>
-        ) : (
-          <h2 style={{color:'blue'}}>Loading</h2>
-        )}
+        <div
+          style={{
+            marginTop:"120px",
+            padding:"0px 10px",
+            backgroundColor:"#11080d80",
+            fontFamily:"'Open Sans', sans-serif",
+          }}
+          >
+          {
+            !positionGotten?(
+                <div>
+                  <h2 style={{color:'red',fontSize:'30px',lineHeight:'60px'}}>
+                    Unable To Get Your Location!!!
+                  </h2>
+                  <div style={{textAlign:'center',fontSize:'20px',lineHeight:'30px'}}>
+                    {positionErrorMessage}
+                  </div>
+                </div>
+              ):('')
+          }
+          {!loading ? (
+            !error?(
+              <main>
+                <Current toFarenheit={toFarenheit} displayCelsius={displayCelsius} today={weatherJson.current} dateBuilder={dateBuilder}/>
+                <DisplayInfo toFarenheit={toFarenheit} displayCelsius={displayCelsius} hourly={weatherJson.hourly} daily={weatherJson.daily} dateBuilder={dateBuilder}/>
+              </main>
+            ):(
+              <div>
+                <h2 style={{color:'red',fontSize:'30px',lineHeight:'60px'}}>
+                  {errorMessageMain}
+                </h2>
+                <p style={{textAlign:'center',fontSize:'20px',lineHeight:'30px'}}>
+                  {errorMessageDetail}
+                </p>
+              </div>
+            )
+          ):(
+              <div>
+                <h2 style={{color:'blue'}}>Getting Data...</h2>
+              </div>
+          )}
+        </div>
       </div>
     )
   }
 }
-
+                
 export default App;
-
